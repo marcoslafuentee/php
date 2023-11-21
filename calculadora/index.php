@@ -1,23 +1,32 @@
 <?php
 
-$cadena = $_POST['operacion'];
-$tipo_operacion = Operacion::tipo_operacion($cadena);
-switch ($tipo_operacion){
-    case Operacion::OPERACION_RACIONAL:
-        $operacion = new OperacionRacional($cadena);
-        $resultado = $operacion->opera();
-        $msj= "La operación es racional";
-        break;
-    case Operacion::OPERACION_REAL:
-        $operacion = new OperacionReal($cadena);
-        $resultado = $operacion->opera();
-        $msj= "La operación es real";
-        break;
-    case Operacion::ERROR:
-        $resultado = "operación errónea";
-        $msj= "La operación no es posible";
-        break;
-}
+$carga = fn($clase)=>require "$clase.php";
+spl_autoload_register($carga);
+
+
+//if (isset($_POST("submit"))){}
+    $cadena = $_POST['operacion'];
+    $tipo_operacion = Operacion::tipo_operacion($cadena);
+    switch ($tipo_operacion){
+        case Operacion::OPERACION_RACIONAL:
+            $operacion = new OperacionRacional($cadena);
+            $resultado = $operacion->operar();
+            $msj= "La operación es racional";
+            $msj = "$operacion = $resultado";
+            break;
+        case Operacion::OPERACION_REAL:
+            $operacion = new OperacionReal($cadena);
+            $resultado = $operacion->opera();
+            $msj= "La operación es real";
+            break;
+        case Operacion::ERROR:
+            $resultado = "operación errónea";
+            $msj= "La operación no es posible";
+            break;
+    }
+
+
+
 
 
 ?>
@@ -69,6 +78,8 @@ switch ($tipo_operacion){
     <fieldset id=rtdo><legend>Resultado</legend>
         <label></label>
     </fieldset>
+
+    <?= "<h1>$tipo_operacion</h1>" ?>
 </main>
 
 </body>
