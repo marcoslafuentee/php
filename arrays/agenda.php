@@ -1,7 +1,14 @@
 <?php
 
 
-$agenda = isset($_POST['agenda']) ? unserialize($_POST['agenda']) : [];
+//$agenda = isset($_POST['agenda']) ? unserialize($_POST['agenda']) : [];
+
+
+if (isset($_POST['agenda']))
+    $agenda =  unserialize($_POST['agenda']);
+else
+    $agenda =[];
+
 
 if ($agenda === false) {
     // Hubo un error al deserializar
