@@ -1,0 +1,213 @@
+*ASCII*
+    //Para saber el caracter ascci en x posicion
+    $character = chr($num)
+
+
+
+*EXPRESIONES*
+
+$num1 = 3;
+
+    $rtdo = ++$num1 * 3;
+    $rtdo = $num1++ * 3;
+    $num1 **= $num2
+
+
+
+*DATE*
+    //Operaciones y funcines interesantes de date()
+
+    $fecha_nacimineto = "02/08/2004";
+    $timestamp_nacimiento= strtotime("$fecha_nacimineto");
+    echo "<h2>Segundos desde $timestamp_nacimiento</h2>";
+
+    date("Y-m-d H:i:s", time())
+
+    $segundos_vida = time()-$timestamp_nacimiento;
+    echo "<h2>Segundos de vida $segundos_vida</h2>";
+
+    date_default_timezone_set("Europe/London");
+
+
+
+*FICHEROS*
+    La diferencia entre include y require es que si el fichero no existe,
+    include sigue ejecutando el programa mientras que con require se detiene.
+
+
+
+*FUNCINES*
+    //Función flecha
+    $sumar = fn($a,$b)=>  "<h2>".$a + $b + $numero."</h2>";
+
+
+
+*EXPRESIONES REGULARES*
+    //Validar correo
+    ^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$
+    [a-z]|[0-9]{1-12}@[a-z].[a-z]{3}
+
+
+
+*IF ELSE HTML*
+    <?php if (condicion): ?>
+        codigo html
+    <?php else: ?>
+        codigo html
+    <?php endif?>
+
+
+
+*COMPOSER*
+    //En el archivo composer.json dentro de autoload psr-4 indicamos
+    "nombre_namespace\\": "ruta_directorio"
+    //si tenemos mas de una, estarán separadas por ","
+
+    //Para coger el nombre de la clase:
+    __CLASS__
+
+    //Para coger el nombre del namespace:
+    __NAMESPACE__
+
+
+
+*ARRAY*
+    //añadir valores
+    $notas = [3,5,6,9,8];
+
+    //añadir un valor en la primera posicion libre
+    $notas[] = 8;
+
+    //Para añadir mas de 2 elementos seguidos
+    $notas[] = $notas+[1,3];
+
+    //Elegir la posición que queremos
+    $notas[8] = 2003;
+
+    //eliminar variable
+    unset($notas[3]);
+
+    //recorrer array foreach()
+
+    //rellenar con numeros aleatorios un array
+    $notas = array_fill(0,20,rand(1,100)); //Tendrá 20 posiciones y a todas ellas le habrá aplicado el mismo numero aleatorio
+
+    //para rellenar y que cada uno sea un numero aleatorio distinto necesitaremos la ayuda de una funcion
+    $rellenar = fn() => rand(1,10);
+    $notas = array_map($rellenar, $notas);
+
+    //Asociativos
+    //2 Ejemplos
+
+    $capitales = ["Espana"=>"Madrid",
+                    "Francia"=>"Paris",
+                    "Portugal"=>"Lisboa"];
+
+    foreach ($capitales as $pais => $ciudad){
+        echo "<h2>Pais $pais, Ciudad = $ciudad</h2>";
+    }
+
+    $productos = [
+        'lechugas' => ['precio' => 100, 'unidades' => 50],
+        'manzanas' => ['precio' => 200, 'unidades' => 100],
+        'peras' => ['precio' => 300, 'unidades' => 150],
+        'tomates' => ['precio' => 400, 'unidades' => 200],
+        'cebollas' => ['precio' => 500, 'unidades' => 25],
+    ];
+
+    //A la vez que lo leemos, lo modificamos (Fuera del foreach el valor no se cambia, sigue igual que antes)
+    foreach ($productos as $producto => $info){
+        $precio = $info['precio']*1.1;
+        $unidades = $info['unidades'];
+
+        echo "<h2>$producto tiene $unidades unidades a un precio de $precio$</h2>";
+    }
+
+
+
+*CLASES/OBJETOS*
+    //Para cargar las clases.
+    $carga = fn($clase)=> require ("$clase.php");
+    spl_autoload_register($carga);
+
+    //si una clase tiene un método abstracto lo tendremos que señalar en la clase
+    abstract class Persona{
+        abstract function quejar();
+    }
+
+    //si una clase es hija de otra lo tendremos que señalizar, y si ademas la clase padre tiene funciones abstractas, las tendremos que incluir
+    class Deportista extends Persona{
+
+        public function quejar()
+        {
+            return "Voy a bajar mi marca $this->marca_personal";
+        }
+
+    }
+
+    //para acceder a la clase padre utilizaremos parent::funcion/metodo que quieras
+    public function __construct(string $nombre, string $apellido, int $sueldo, private string $especialidad, private int $marca_personal)
+        {
+            parent::__construct($nombre, $apellido); //Con el parent llamamos a los atributos de la clase padre
+            //echo "<h2>Nombre $this->nombre</h2>";
+            $this->sueldo=$sueldo; //El this->sueldo viene del trait trabajador
+
+        }
+
+    //Cuando queremos utilizar un solo atributo o varios de otra clase, a esta la llamaremos trait y pondremos dentro de la clase donde la queremos el "use NombreClase" para poder utilizarlos
+    use Trabajador;
+
+
+*COOKIES*
+    //crear cookie
+    setcookie(nombre, valor, tiempo para que expire);
+
+    //eliminar cookie
+    setcookie(nombre, valor, le daremos un valor menor al tiempo actual Ej: time()-1;
+
+    //leemos una cookie
+    $_COOKIE['nombre_cookie']
+
+
+
+*IMPRIMIR CON FIN*
+    //Si lo ponemos tal cual, de las variables de php nos mostrará su valor
+    $nombre = "Nacho";
+       $rtdo =  <<<FIN
+        Hola buenas estamos con $nombre
+        weruewf
+    FIN;
+
+    //Pero si lo ponemos entre comillas simples 'FIN' nos mostrara $variable (Como string)
+    $nombre = "Nacho";
+       $rtdo =  <<<'FIN'
+        Hola buenas estamos con $nombre
+        weruewf
+    FIN;
+
+
+*DIFERENCIAS ISSET() IS_NULL() EMPTY()*
+
+    //is_null()
+    SI  $a , es nulo
+    SI  $a=null, $a es nulo
+    NO  $a=5, $a no es nulo
+    NO  $a="", $a no es nulo
+    NO  $a=false, $a no es nulo
+    NO  $a=0, $a no es nulo
+
+    //isset()
+    NO  $a , no esta definido
+    NO  $a=null, no esta definido
+    SI  $a=5, esta definido
+    SI  $a="", si esta definido
+    SI  $a=false, si esta definido
+    SI  $a=0, si esta definido
+
+    //empty()
+    SI  $a , esta vacio
+    SI  $a=null, esta vacio
+    NO  $a=5, no esta vacio
+    SI  $a="", esta vacio
+    SI  $a=false, esta vacio
+    SI  $a=0, esta vacio
